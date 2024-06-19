@@ -4,8 +4,12 @@ from cryptography.fernet import Fernet
 
 router = APIRouter()
 
-key = Fernet.generate_key()
-fernet = Fernet(key)
+def regenerate():
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    return key, fernet
+
 
 class Message(BaseModel):
     text: str
@@ -17,6 +21,7 @@ class EncryptedMessage(BaseModel):
 @router.post("/encrypt", response_model=EncryptedMessage)
 def encrypt_message(message: Message):
     try:
+        key, fernet = regenerate()
         encrypted_text = fernet.encrypt(message.text.encode())
         return {"cipher": encrypted_text.decode(), "key": key.decode()}
     except Exception as e:
