@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.routers import sulanuka
+from .routers import sulanuka
 
 app = FastAPI()
 
-app.include_router(sulanuka.router, prefix="/api", tags=["Sulanuka"])
+app.include_router(sulanuka.router, prefix="/sulanuka", tags=["sulanuka"])
